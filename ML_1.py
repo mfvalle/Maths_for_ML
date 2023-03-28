@@ -1,18 +1,19 @@
 """
  Puntos:
 
-1) Specify which Machine Learning problem are you solving................................GG (cada quien)
-2) Provide a short summary of the features and the labels you are working on.............GG (cada quien)
+1) Specify which Machine Learning problem are you solving..........................GG (cada quien)
+2) Provide a short summary of the features and the labels you are working on.......GG (cada quien)
 
 3) Please answer the following questions: 
-    a) Are these datasets linearly separable?................................. ..........gg (ya esta todo)
-    b) Are these datasets randomly chosen (mirar tiempo)...............................  :( (se tiene una idea)
-    c) The sample size is enough to guarantee generalization............................ :( (toca buscar algun teorema, segun lo que decia el profesor)
+    a) Are these datasets linearly separable?................................. .... (ya esta todo)
+    b) Are these datasets randomly chosen (mirar tiempo).........................  :( (se tiene una idea) pero aun no hay nada
+    c) The sample size is enough to guarantee generalization...................... :( (toca buscar algun teorema, lo q dijoel profesor)
 
-4) Provide an explanation how and why the code is working. ..............................:( 
-5) Show some examples to illustrate that the method is working properly..................:(  (evaluarlo para ejemplos del data test)
+4) Provide an explanation how and why the code is working. ........................:( 
+5) Show some examples to illustrate that the method is working properly............:(  (evaluarlo para ejemplos del data test)
 
-6) Provide quantitative evidence for generalization using the provided dataset...........gg   ( ya está, solo falta mirar lo que dice al final del archivo)
+6) Provide quantitative evidence for generalization using the provided dataset.....gg   ( ya está, solo falta mirar lo que dice 
+al final del archivo)
 """
 
 """SVM_SKlearn"""
@@ -22,6 +23,7 @@ import numpy as np
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
+import math
 
 """
  Los datos que se usan son de esta forma:
@@ -41,13 +43,35 @@ for i in range(len(data_dict)):
 
 class0 = []
 class1 = []
+#ingeniería de características. usando solo la hora del día del dato de la fecha, porque puede tener incidencia en niveles de humedad base
+fechas = []
+# funcion para pasar horas minutos y segundos a minutos____________________-
+def hms_to_s(s):
+    t = 0
+    for u in s.split(':'):
+        t = 60 * t + int(u)
+    t = t/60
+    t = round(t)
+    return t
+#__________________________________________________________________________
+
 for i in range(len(data_dict)):
     del data_dict[i][0][0]
+    fechas.append(data_dict[i][0][0])
+    fechas[i] = fechas[i].split( )
+    del fechas[i][0]
+    fechas[i] = ''.join(fechas[i])
+    fechas[i] = fechas[i].replace('"', '')
+    fechas[i] = hms_to_s(fechas[i])
+    
     del data_dict[i][0][0]
     if data_dict[i][0][5] == "0":
         class0.append(data_dict[i][0])
     else:
         class1.append(data_dict[i][0])
+
+
+
 
 for i in range(len(class0)):
    del class0[i][-1]
