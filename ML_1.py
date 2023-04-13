@@ -1,23 +1,51 @@
 """
  Puntos:
 
-1) Specify which Machine Learning problem are you solving..........................GG (cada quien)
-2) Provide a short summary of the features and the labels you are working on.......GG (cada quien)
+1) Specify which Machine Learning problem are you solving..........................(cada quien)
+
+We are solving a binary classification problem using support vector machines, first we have a dataset consisting of 
+7 dimensional vectors with the information of "date","Temperature","Humidity","Light","CO2","HumidityRatio","Occupancy"
+The goal is implementing a support vector machines model for predicting the "Occupancy" given the other 6 data.
+For this we will check if the dataset is linearly separable, for correctly implementing support vector machines.
+
+2) Provide a short summary of the features and the labels you are working on.......
+
+lets see the relation between each feature and the "Occupancy". it is important because we need to be sure we use adecuate features
+for predicting occupancy. If there was a feature that had nothing to do with occupancy then we should not take it into account in our model.
+the features we wil be working on are: 
+"date": (format: date time year-month-day hour:minute:second) important data because it can be related with the normal values of "Temperature","Humidity" and "Light",
+because these may vary during the day so we will consider for our model the hour in the day where the 7 data was recorded.
+
+"Temperature": temperatue is related with occupancy because humans breath can increase temperature in a room.
+(in Celsius)
+
+"Humidity": humidity increases with the number of persons in a room, so it is related with occupancy.
+(Relative Humidity, %)
+
+"Light" : an occupied room may have the light turned on".
+( light in lux)
+
+"CO2":  the levels of CO2 increase with the more people there are in a room.
+(CO2, in ppm)
+
+"HumidityRatio": Humidity Ratio, Derived quantity from temperature and relative humidity, in kgwater-vapor/kg-air
+
+Occupancy, 0 or 1, 0 for not occupied, 1 for occupied status
+
 
 3) Please answer the following questions: 
-    a) Are these datasets linearly separable?................................. .... (ya esta todo)
-    b) Are these datasets randomly chosen (mirar tiempo).........................  :( (se tiene una idea) pero aun no hay nada
-    c) The sample size is enough to guarantee generalization...................... :( (toca buscar algun teorema, lo q dijoel profesor)
+    a) Are these datasets linearly separable?................................. .... 
+    b) Are these datasets randomly chosen (mirar tiempo).........................   (se tiene una idea) 
+    c) The sample size is enough to guarantee generalization...................... (toca buscar algun teorema)
 
-4) Provide an explanation how and why the code is working. ........................:( 
-5) Show some examples to illustrate that the method is working properly............:(  (evaluarlo para ejemplos del data test)
+4) Provide an explanation how and why the code is working......................... 
+5) Show some examples to illustrate that the method is working properly............  (evaluarlo para ejemplos del data test)
 
-6) Provide quantitative evidence for generalization using the provided dataset.....gg   ( ya está, solo falta mirar lo que dice 
-al final del archivo)
+6) Provide quantitative evidence for generalization using the provided dataset.....
 """
 
-"""SVM_SKlearn"""
-# for checking linearity of data, lets see if an svm can overfit perfectly the dataset
+"""SVM_SKlearn   Are these datasets linearly separable? """
+# for checking data is linearly separable, lets see if an svm can overfit perfectly the dataset
 import pandas as pd
 import numpy as np
 from sklearn.pipeline import make_pipeline
@@ -45,7 +73,7 @@ class0 = []
 class1 = []
 #ingeniería de características. usando solo la hora del día del dato de la fecha, porque puede tener incidencia en niveles de humedad base
 fechas = []
-# funcion para pasar horas minutos y segundos a minutos____________________-
+# funcion para pasar horas minutos y segundos a minutos-
 def hms_to_s(s):
     t = 0
     for u in s.split(':'):
@@ -53,7 +81,7 @@ def hms_to_s(s):
     t = t/60
     t = round(t)
     return t
-#__________________________________________________________________________
+#fin funcion
 
 for i in range(len(data_dict)):
     del data_dict[i][0][0]
@@ -184,7 +212,7 @@ X_test = np.array(X_test)
 #print( "lenght of y_test is: ", len(y_test))   # X_test y y_test ya tienen la misma longitud. 
 
 
-#clf.fit(X, y)  (ya lo corrimos antes)
+#clf.fit(X, y)  (ya lo corrimos antes) 
 predict = clf.predict(X_test)
 print('Predicted Values from Classifier at evaluating in X_test:', predict[0])
 print('Actual Output y_test is:', y_test[0])
