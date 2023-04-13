@@ -149,25 +149,19 @@ else:
 # fin del punto de linearly separable 
 
 
-# FALTA TODo LO DE: b) Are these datasets randomly chosen and c) The sample size is enough to guarantee generalization.
+# FALTA: b) Are these datasets randomly chosen and c) The sample size is enough to guarantee generalization.
 # Punto 5
 # Show some examples to illustrate that the method is working properly. 
 """ usaremos el conjunto que está en el dataset (datatest) para dar algunos ejemplos de que el modelo está funcionando bien
-
 """
-
-
 
 # punto 6
 # veamos si el modelo generaliza  
 
-
 """ lo que haremos es separar el dataset en dos conjuntos x_test, x_train, y_test, y_train 
 luego entrenamos el modelo con el conjunto train y lo evaluamos en los ejemplos del conjunto test
-
 # una vez se tienen los conjuntos de datos separados:
 clf.fit(x_train, y_train)
-
 predict = clf.predict(x_test)
 print('Predicted Values from Classifier:', predict)
 print('Actual Output is:', y_test)
@@ -176,7 +170,6 @@ print('Accuracy of the model is:', clf.score(x_test, y_test))
 
 data_test = pd.read_csv("C:/Users/sergi/OneDrive/Escritorio/MathforML/datatest.csv", encoding='utf-8') 
 # le haremos el mismo proceso anterior al datatest
-
 
 data_dict_test = np.array(data_test)
 for i in range(len(data_dict_test)):
@@ -214,24 +207,25 @@ X_test = np.array(X_test)
 
 #clf.fit(X, y)  (ya lo corrimos antes) 
 predict = clf.predict(X_test)
-print('Predicted Values from Classifier at evaluating in X_test:', predict[0])
-print('Actual Output y_test is:', y_test[0])
 
 
+#veamos en que datos el modelo se está equivocando para predecir Y_test
 indices_diferentes = []
-
 n=0
-for i in predict:
-    n = n+1
-    if predict[i] == y_test[i]:
+while n < len(predict): 
+    if predict[n] != y_test[n]:
         indices_diferentes.append(n)
-print(indices_diferentes)
+    n = n+1
+print("el modelo se equivoca en los siguientes indices de datos", indices_diferentes)
+""" output: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,21, 22, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845,
+846, 847, 848, 849,850, 851, 852, 853, 854, 855, 856, 857, 858, 859, 860, 861, 862, 863, 864, 865, 866, 867,868, 869, 870, 871, 1677, 1678, 1679, 1680,
+1681, 1682, 1683, 1684, 1685, 1686, 1687, 1688, 1689, 1690, 1691, 1692, 1896, 2601, 2602]"""
 
 
+print('Accuracy of the model in the Test set is:', clf.score(X_test, y_test)) """output: Accuracy of the model in the Test set is: 0.9699812382739212"""
 if clf.score(X_test, y_test) > 0.95:
-    print("el modelo es capaz de generalizar en datos no vistos anteriormente")
-print('Accuracy of the model is:', clf.score(X_test, y_test))
+    print(" luego el modelo es capaz de generalizar en datos no vistos anteriormente")
 
 
-#hay un problema, parece que al predecir en X_test nos da valores diferentes en y_test para algunos indices muy especificos
-#lo cual es extraño, no se como mirar bein que está pasando con estos dos conjuntos...
+
+
